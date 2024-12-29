@@ -8,7 +8,7 @@ module Pay
 
         customer = Customer.create_with(
           aws_account_id: customer_info.customer_aws_account_id,
-          processor: "aws_marketplace",
+          processor: "aws_marketplace"
         ).find_or_create_by!(processor_id: customer_info.customer_identifier)
 
         require "aws-sdk-marketplaceentitlementservice"
@@ -42,7 +42,7 @@ module Pay
         end
 
         customer.subscriptions.find_or_initialize_by(
-          processor_plan: entitlement.product_code,
+          processor_plan: entitlement.product_code
         ).update!(
           name: entitlement.dimension,
           quantity: entitlement.value.integer_value,

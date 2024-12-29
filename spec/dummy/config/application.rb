@@ -25,5 +25,8 @@ module Dummy
     else
       config.action_mailer.preview_path = Rails.root.join("../../test/mailers/previews")
     end
+
+    # Opt in to 8.1 behavior to suppress a warning
+    config.active_support.to_time_preserves_timezone = :zone
   end
 end

@@ -17,6 +17,6 @@ class User < ApplicationRecord
   end
 
   def braintree_attributes(pay_customer)
-    { company: "Company" }
+    {company: "Company"}
   end
 end
