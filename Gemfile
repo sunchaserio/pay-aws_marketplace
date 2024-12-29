@@ -5,6 +5,7 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in pay-aws_marketplace.gemspec
 gemspec
 
-gem "rake", "~> 13.0"
-gem "rspec", "~> 3.0"
+gem "ostruct", "~> 0.6.1"
+gem "rspec-rails", "~> 7.1"
+gem "sqlite3", "~> 2.5"
 gem "standard", "~> 1.3"
