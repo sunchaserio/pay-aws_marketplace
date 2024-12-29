@@ -4,7 +4,12 @@
 ENV["RAILS_ENV"] = "test"
 
 require File.expand_path("dummy/config/environment.rb", __dir__)
-ActiveRecord::Migrator.migrations_paths = [File.expand_path("dummy/db/migrate", __dir__), File.expand_path("../db/migrate", __dir__)]
+ActiveRecord::Migrator.migrations_paths = [
+  File.expand_path("dummy/db/migrate", __dir__),
+  File.expand_path("../db/migrate", __dir__)
+]
+ActiveRecord::Migration.maintain_test_schema!
+
 require "rspec/rails"
 require "pay/aws_marketplace"
 
