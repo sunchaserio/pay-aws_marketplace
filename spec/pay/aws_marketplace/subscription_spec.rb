@@ -165,5 +165,20 @@ RSpec.describe Pay::AwsMarketplace::Subscription do
       }.to change { Pay::AwsMarketplace::Customer.count }
     end
   end
+
+  describe "create usage record" do
+    before do
+      aws_mm = Aws::MarketplaceMetering::Client.new(stub_responses: {
+        batch_meter_usage: {
+          results: [],
+          unprocessed_records: []
+        }
+      })
+      expect(Aws::MarketplaceMetering::Client).to receive(:new).and_return(aws_mm)
+    end
+
+    it "sends an hourly metering record to AWS marketplace" do
+      @subscription.create_usage_record(quantity: 10, timestamp: 1.hour.ago)
+    end
   end
 end

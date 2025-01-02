@@ -97,6 +97,18 @@ module Pay
       def retry_failed_payment
         raise ChargeError
       end
+
+      def create_usage_record(quantity:, timestamp: Time.now)
+        Aws::MarketplaceMetering::Client.new(region: "us-east-1").batch_meter_usage(
+          product_code: processor_plan,
+          usage_records: [{
+            customer_identifier: customer.processor_id,
+            dimension: name,
+            quantity: quantity,
+            timestamp: timestamp
+          }]
+        )
+      end
     end
   end
 end
