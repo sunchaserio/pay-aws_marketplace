@@ -125,45 +125,45 @@ RSpec.describe Pay::AwsMarketplace::Subscription do
     assert_equal "team_ep", subscription.name
   end
 
-  def stub_aws_customer_subscription(resolve_customer: {}, get_entitlements: {})
-    aws_mm = Aws::MarketplaceMetering::Client.new(stub_responses: {
-      resolve_customer: {
-        customer_aws_account_id: "123456789",
-        customer_identifier: "QzOTBiMmRmN",
-        product_code: "et6zix1m4h3qlfta2qy6r7lnw"
-      }.merge(resolve_customer)
-    })
-    expect(Aws::MarketplaceMetering::Client).to receive(:new).and_return(aws_mm)
+  describe "aws create from token" do
+    before do
+      aws_mm = Aws::MarketplaceMetering::Client.new(stub_responses: {
+        resolve_customer: {
+          customer_aws_account_id: "123456789",
+          customer_identifier: "QzOTBiMmRmN",
+          product_code: "et6zix1m4h3qlfta2qy6r7lnw"
+        }
+      })
+      expect(Aws::MarketplaceMetering::Client).to receive(:new).and_return(aws_mm)
 
-    aws_mes = Aws::MarketplaceEntitlementService::Client.new(stub_responses: {
-      get_entitlements: {
-        entitlements: [{
-          value: {integer_value: 5},
-          dimension: "team_ep",
-          product_code: "et6zix1m4h3qlfta2qy6r7lnw",
-          expiration_date: Time.parse("2024-10-26T13:43:42.608+00:00"),
-          customer_identifier: "QzOTBiMmRmN"
-        }.merge(get_entitlements)],
-        next_token: nil
-      }
-    })
-    expect(Aws::MarketplaceEntitlementService::Client).to receive(:new).and_return(aws_mes)
+      aws_mes = Aws::MarketplaceEntitlementService::Client.new(stub_responses: {
+        get_entitlements: {
+          entitlements: [{
+            value: {integer_value: 5},
+            dimension: "team_ep",
+            product_code: "et6zix1m4h3qlfta2qy6r7lnw",
+            expiration_date: Time.parse("2024-10-26T13:43:42.608+00:00"),
+            customer_identifier: "QzOTBiMmRmN"
+          }],
+          next_token: nil
+        }
+      })
+      expect(Aws::MarketplaceEntitlementService::Client).to receive(:new).and_return(aws_mes)
+    end
+
+    it "aws sync from registration token" do
+      expect {
+        Pay::AwsMarketplace::Subscription.create_from_token!("abc123")
+      }.to change { Pay::AwsMarketplace::Subscription.last }
+    end
+
+    it "aws sync from registration token without customer" do
+      Pay::Customer.destroy_all
+
+      expect {
+        Pay::AwsMarketplace::Subscription.create_from_token!("abc123")
+      }.to change { Pay::AwsMarketplace::Customer.count }
+    end
   end
-
-  it "aws sync from registration token" do
-    stub_aws_customer_subscription
-
-    expect {
-      Pay::AwsMarketplace::Subscription.create_from_token!("abc123")
-    }.to change { Pay::AwsMarketplace::Subscription.last }
-  end
-
-  it "aws sync from registration token without customer" do
-    stub_aws_customer_subscription
-    Pay::Customer.destroy_all
-
-    expect {
-      Pay::AwsMarketplace::Subscription.create_from_token!("abc123")
-    }.to change { Pay::AwsMarketplace::Customer.count }
   end
 end
