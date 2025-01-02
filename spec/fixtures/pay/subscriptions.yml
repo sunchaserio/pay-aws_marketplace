@@ -46,7 +46,7 @@ lemon_squeezy:
 
 aws_marketplace:
   type: Pay::AwsMarketplace::Subscription
-  customer: aws
+  customer: aws_marketplace
   name: default
   processor_id: aws_1
   processor_plan: default

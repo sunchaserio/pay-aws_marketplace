@@ -8,6 +8,7 @@ RSpec.describe Pay::AwsMarketplace::Subscription do
   before do
     @pay_customer = pay_customers(:aws_marketplace)
     @subscription = pay_subscriptions(:aws_marketplace)
+    assert_equal @pay_customer, @subscription.customer
   end
 
   it "aws processor subscription" do
