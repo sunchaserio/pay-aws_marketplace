@@ -99,6 +99,8 @@ module Pay
       end
 
       def create_usage_record(quantity:, timestamp: Time.now)
+        require "aws-sdk-marketplacemetering"
+
         Aws::MarketplaceMetering::Client.new(region: "us-east-1").batch_meter_usage(
           product_code: processor_plan,
           usage_records: [{
