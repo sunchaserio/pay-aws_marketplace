@@ -1,15 +1,18 @@
 module Pay
   module AwsMarketplace
     class Subscription < Pay::Subscription
-      def self.sync_from_registration_token(token)
+      def self.create_from_token!(token, owner: nil)
         require "aws-sdk-marketplacemetering"
         aws_mm = Aws::MarketplaceMetering::Client.new(region: "us-east-1")
         customer_info = aws_mm.resolve_customer(registration_token: token)
 
         customer = Customer.create_with(
           aws_account_id: customer_info.customer_aws_account_id,
-          processor: "aws_marketplace"
-        ).find_or_create_by!(processor_id: customer_info.customer_identifier)
+          owner: owner
+        ).find_or_create_by!(
+          processor: "aws_marketplace",
+          processor_id: customer_info.customer_identifier
+        )
 
         require "aws-sdk-marketplaceentitlementservice"
         aws_mes = Aws::MarketplaceEntitlementService::Client.new(region: "us-east-1")

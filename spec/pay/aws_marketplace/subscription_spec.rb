@@ -153,7 +153,7 @@ RSpec.describe Pay::AwsMarketplace::Subscription do
     stub_aws_customer_subscription
 
     expect {
-      Pay::AwsMarketplace::Subscription.sync_from_registration_token("abc123")
+      Pay::AwsMarketplace::Subscription.create_from_token!("abc123")
     }.to change { Pay::AwsMarketplace::Subscription.last }
   end
 
@@ -162,7 +162,7 @@ RSpec.describe Pay::AwsMarketplace::Subscription do
     Pay::Customer.destroy_all
 
     expect {
-      Pay::AwsMarketplace::Subscription.sync_from_registration_token("abc123")
+      Pay::AwsMarketplace::Subscription.create_from_token!("abc123")
     }.to change { Pay::AwsMarketplace::Customer.count }
   end
 end
