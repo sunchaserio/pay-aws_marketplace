@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
+ruby file: ".ruby-version"
 
 # Specify your gem's dependencies in pay-aws_marketplace.gemspec
 gemspec
