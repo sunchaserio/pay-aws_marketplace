@@ -15,9 +15,12 @@ jobs:
       matrix:
         ruby:
           - '3.3.6'
+          - '3.4.1'
 
     steps:
       - uses: actions/checkout@v4
+      - name: Set .ruby-version from matrix
+        run: echo '${{ matrix.ruby }}' > .ruby-version
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
