@@ -1,7 +1,7 @@
 module Pay
   module AwsMarketplace
     class Subscription < Pay::Subscription
-      def self.create_from_token!(token, owner: nil)
+      def self.sync_from_token!(token, owner: nil)
         require "aws-sdk-marketplacemetering"
         aws_mm = Aws::MarketplaceMetering::Client.new(region: "us-east-1")
         customer_info = aws_mm.resolve_customer(registration_token: token)
@@ -35,10 +35,10 @@ module Pay
         status = :active
         ends_at = nil
 
-        # This class uses `ends_at` to track the time an already-scheduled cancellation request
-        # should take effect.  Amazon uses `expiration_date` to tell us when the contracted
-        # subscription period will end. As a result, we have to calculate the current status of the
-        # sub ourselves and put that into `status`.
+        # Pay uses `ends_at` to track the time an already-scheduled cancellation request should take
+        # effect.  Amazon uses `expiration_date` to tell us when the contracted subscription period
+        # will end. As a result, we have to calculate the current status of the sub ourselves and
+        # put that into `status`.
         if entitlement.expiration_date < Time.current
           status = :cancelled
           ends_at = entitlement.expiration_date
