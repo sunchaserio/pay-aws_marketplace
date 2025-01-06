@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "pay"
+require "aws-sdk-marketplacemetering"
+require "aws-sdk-marketplaceentitlementservice"
 
 require "zeitwerk"
 Zeitwerk::Loader.for_gem_extension(Pay).setup

@@ -2,7 +2,6 @@ module Pay
   module AwsMarketplace
     class Subscription < Pay::Subscription
       def self.sync_from_token!(token, owner: nil)
-        require "aws-sdk-marketplacemetering"
         aws_mm = Aws::MarketplaceMetering::Client.new(region: "us-east-1")
         customer_info = aws_mm.resolve_customer(registration_token: token)
 
@@ -14,7 +13,6 @@ module Pay
           processor_id: customer_info.customer_identifier
         )
 
-        require "aws-sdk-marketplaceentitlementservice"
         aws_mes = Aws::MarketplaceEntitlementService::Client.new(region: "us-east-1")
         entitlement = aws_mes.get_entitlements(
           product_code: customer_info.product_code,
@@ -101,8 +99,6 @@ module Pay
       end
 
       def create_usage_record(quantity:, timestamp: Time.now)
-        require "aws-sdk-marketplacemetering"
-
         Aws::MarketplaceMetering::Client.new(region: "us-east-1").batch_meter_usage(
           product_code: processor_plan,
           usage_records: [{
