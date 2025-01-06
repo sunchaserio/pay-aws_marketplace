@@ -153,7 +153,8 @@ RSpec.describe Pay::AwsMarketplace::Subscription do
 
     it "aws sync from registration token" do
       expect {
-        Pay::AwsMarketplace::Subscription.sync_from_token!("abc123")
+        sub = Pay::AwsMarketplace::Subscription.sync_from_token!("abc123")
+        expect(sub).to be_a(Pay::AwsMarketplace::Subscription)
       }.to change { Pay::AwsMarketplace::Subscription.last }
     end
 
@@ -161,7 +162,8 @@ RSpec.describe Pay::AwsMarketplace::Subscription do
       Pay::Customer.destroy_all
 
       expect {
-        Pay::AwsMarketplace::Subscription.sync_from_token!("abc123")
+        sub = Pay::AwsMarketplace::Subscription.sync_from_token!("abc123")
+        expect(sub).to be_a(Pay::AwsMarketplace::Subscription)
       }.to change { Pay::AwsMarketplace::Customer.count }
     end
   end

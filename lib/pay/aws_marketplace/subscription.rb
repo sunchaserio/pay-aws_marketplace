@@ -46,12 +46,14 @@ module Pay
 
         customer.subscriptions.find_or_initialize_by(
           processor_plan: entitlement.product_code
-        ).update!(
-          name: entitlement.dimension,
-          quantity: entitlement.value.integer_value,
-          ends_at: ends_at,
-          status: status
-        )
+        ).tap do |sub|
+          sub.update!(
+            name: entitlement.dimension,
+            quantity: entitlement.value.integer_value,
+            ends_at: ends_at,
+            status: status
+          )
+        end
       end
 
       # AWS Marketplace Entitlements don't have IDs, but the marketplace does enforce a unique
