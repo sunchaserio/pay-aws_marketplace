@@ -166,6 +166,15 @@ RSpec.describe Pay::AwsMarketplace::Subscription do
         sub = Pay::AwsMarketplace::Subscription.sync_from_token!("abc123")
         expect(sub).to be_a(Pay::AwsMarketplace::Subscription)
         expect(sub.current_period_end).to eq(Time.parse("2024-10-26T13:43:42Z"))
+        expect(sub.status).to eq("cancelled")
+        expect(sub.data).to eq({entitlement: {
+          value: {integer_value: 5},
+          dimension: "team_ep",
+          product_code: "et6zix1m4h3qlfta2qy6r7lnw",
+          expiration_date: "2024-10-26T13:43:42.000Z",
+          customer_identifier: "QzOTBiMmRmN"
+        }}.with_indifferent_access)
+
       }.to change { Pay::AwsMarketplace::Customer.count }
     end
   end

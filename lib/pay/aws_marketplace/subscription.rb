@@ -39,7 +39,7 @@ module Pay
         # put that into `status`.
         if entitlement.expiration_date < Time.current
           status = :cancelled
-          ends_at = entitlement.expiration_date
+          ends_at = entitlement.expiration_date.utc
         end
 
         customer.subscriptions.find_or_initialize_by(
@@ -49,8 +49,9 @@ module Pay
             name: entitlement.dimension,
             quantity: entitlement.value.integer_value,
             ends_at: ends_at,
-            current_period_end: entitlement.expiration_date,
-            status: status
+            current_period_end: entitlement.expiration_date.utc,
+            status: status,
+            data: {entitlement: entitlement.to_h}
           )
         end
       end
