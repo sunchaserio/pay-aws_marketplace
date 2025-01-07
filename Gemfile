@@ -7,6 +7,7 @@ ruby file: ".ruby-version"
 gemspec
 
 # development and testing gems
+gem "guard-rspec", "~> 4.7"
 gem "ostruct", "~> 0.6.1"
 gem "rspec-rails", "~> 7.1"
 gem "sqlite3", "~> 2.5"
