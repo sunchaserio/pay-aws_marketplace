@@ -11,6 +11,7 @@ ActiveRecord::Migrator.migrations_paths = [
 ActiveRecord::Migration.maintain_test_schema!
 
 require "rspec/rails"
+require "super_diff/rspec-rails"
 require "pay/aws_marketplace"
 
 RSpec.configure do |config|
