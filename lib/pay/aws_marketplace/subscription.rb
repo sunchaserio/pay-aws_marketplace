@@ -49,6 +49,7 @@ module Pay
             name: entitlement.dimension,
             quantity: entitlement.value.integer_value,
             ends_at: ends_at,
+            current_period_end: entitlement.expiration_date,
             status: status
           )
         end

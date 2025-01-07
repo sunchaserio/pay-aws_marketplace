@@ -155,6 +155,7 @@ RSpec.describe Pay::AwsMarketplace::Subscription do
       expect {
         sub = Pay::AwsMarketplace::Subscription.sync_from_token!("abc123")
         expect(sub).to be_a(Pay::AwsMarketplace::Subscription)
+        expect(sub.current_period_end).to eq(Time.parse("2024-10-26T13:43:42Z"))
       }.to change { Pay::AwsMarketplace::Subscription.last }
     end
 
@@ -164,6 +165,7 @@ RSpec.describe Pay::AwsMarketplace::Subscription do
       expect {
         sub = Pay::AwsMarketplace::Subscription.sync_from_token!("abc123")
         expect(sub).to be_a(Pay::AwsMarketplace::Subscription)
+        expect(sub.current_period_end).to eq(Time.parse("2024-10-26T13:43:42Z"))
       }.to change { Pay::AwsMarketplace::Customer.count }
     end
   end
