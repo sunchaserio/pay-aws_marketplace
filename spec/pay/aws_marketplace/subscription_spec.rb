@@ -174,7 +174,6 @@ RSpec.describe Pay::AwsMarketplace::Subscription do
           expiration_date: "2024-10-26T13:43:42.000Z",
           customer_identifier: "QzOTBiMmRmN"
         }}.with_indifferent_access)
-
       }.to change { Pay::AwsMarketplace::Customer.count }
     end
   end
