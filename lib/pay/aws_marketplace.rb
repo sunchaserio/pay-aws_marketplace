@@ -5,7 +5,7 @@ require "aws-sdk-marketplacemetering"
 require "aws-sdk-marketplaceentitlementservice"
 
 require "zeitwerk"
-Zeitwerk::Loader.for_gem_extension(Pay).setup
+Zeitwerk::Loader.for_gem_extension(Pay).tap(&:enable_reloading).setup
 
 require_relative "aws_marketplace/version"
 
