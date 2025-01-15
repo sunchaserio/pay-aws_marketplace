@@ -193,4 +193,14 @@ RSpec.describe Pay::AwsMarketplace::Subscription do
       @subscription.create_usage_record(quantity: 10, timestamp: 1.hour.ago)
     end
   end
+
+  describe "entitlement quantity" do
+    it "returns the value from the entitlement" do
+      expect(@subscription.entitlement_quantity).to eq(0)
+      @subscription.update!("data" => {
+        "entitlement" => {"value" => {"integer_value" => 1}}
+      })
+      expect(@subscription.entitlement_quantity).to eq(1)
+    end
+  end
 end

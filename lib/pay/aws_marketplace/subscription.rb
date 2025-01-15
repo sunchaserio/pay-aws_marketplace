@@ -111,6 +111,10 @@ module Pay
           }]
         )
       end
+
+      def entitlement_quantity
+        data&.dig("entitlement", "value", "integer_value").to_i
+      end
     end
   end
 end
