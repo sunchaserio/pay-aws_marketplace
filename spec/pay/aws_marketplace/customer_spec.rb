@@ -55,10 +55,11 @@ RSpec.describe Pay::AwsMarketplace::Customer do
     user = users(:none)
     pay_customer = user.set_payment_processor :aws_marketplace
 
-    assert_raises Pay::AwsMarketplace::UpdateError do
+    expect {
       pay_customer.update_api_record(
-        "customer_identifier" => "bwhUQyJL8sd", "customer_aws_account_id" => "25404655876"
+        "customer_identifier" => "bwhUQyJL8sd",
+        "customer_aws_account_id" => "25404655876"
       )
-    end
+    }.to_not change { pay_customer.reload.api_record }
   end
 end
