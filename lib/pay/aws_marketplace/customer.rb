@@ -13,7 +13,9 @@ module Pay
       end
 
       def update_api_record(**attributes)
-        raise UpdateError, "AWS Marketplace does not allow updating customer information"
+        # we can silently do nothing here, because AWS Marketplace customers records
+        # don't have email addresses that we could update. If the Pay gem eventually
+        # starts syncing more information than the email address of record, revisit.
       end
 
       def charge(amount, options = {})
