@@ -56,10 +56,7 @@ RSpec.describe Pay::AwsMarketplace::Customer do
     pay_customer = user.set_payment_processor :aws_marketplace
 
     expect {
-      pay_customer.update_api_record(
-        "customer_identifier" => "bwhUQyJL8sd",
-        "customer_aws_account_id" => "25404655876"
-      )
+      pay_customer.update_api_record
     }.to_not change { pay_customer.reload.api_record }
   end
 end
