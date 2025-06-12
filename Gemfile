@@ -7,11 +7,9 @@ ruby file: ".ruby-version"
 gemspec
 
 # development and testing gems
-gem "guard-rspec", "~> 4.7"
+gem "bundler-audit", "~> 0.9.2"
 gem "ostruct", "~> 0.6.1"
-gem "rspec-rails", "~> 7.1"
+gem "rspec-rails", "~> 8.0"
 gem "sqlite3", "~> 2.5"
 gem "standard", "~> 1.3"
 gem "super_diff", "~> 0.15.0"
-
-gem "bundler-audit", "~> 0.9.2"
